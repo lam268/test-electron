@@ -5,9 +5,11 @@ import {URL} from 'url';
 async function createWindow() {
   const browserWindow = new BrowserWindow({
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
+    width: 1280,
+    height: 720,
     webPreferences: {
       nodeIntegration: false,
-      contextIsolation: true,
+      contextIsolation: true, 
       sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
@@ -25,9 +27,9 @@ async function createWindow() {
   browserWindow.on('ready-to-show', () => {
     browserWindow?.show();
 
-    if (import.meta.env.DEV) {
-      browserWindow?.webContents.openDevTools();
-    }
+    // if (import.meta.env.DEV) {
+    //   browserWindow?.webContents.openDevTools();
+    // }
   });
 
   /**
