@@ -57,6 +57,5 @@ function handleStream(stream: any, isWebcam = false) {
   video!.srcObject = stream;
   video!.onloadedmetadata = () => video!.play();
   const peer = createPeer();
-  console.log(peer);
   stream.getTracks().forEach((track: any) => peer.addTrack(track, stream));
 }
