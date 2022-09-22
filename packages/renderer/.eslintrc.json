@@ -1,0 +1,21 @@
+{
+  "env": {
+    "browser": true,
+    "node": false
+  },
+  "extends": [
+    /** @see https://eslint.vuejs.org/rules/ */
+    // "plugin:vue/vue3-recommended",
+    // "eslint:recommended",
+    // "@vue/prettier",
+    // "@vue/eslint-config-prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2021
+  },
+  "rules": {
+    /** These rules are disabled because they are incompatible with prettier */
+    "vue/html-self-closing": "off",
+    "vue/singleline-html-element-content-newline": "off"
+  }
+}

@@ -1,0 +1,4 @@
+packages/**/*.vite.config.js
+**/node_modules/**
+packages/**/*.d.ts
+packages/**/*.vue
