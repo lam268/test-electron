@@ -1,4 +1,4 @@
-import {app, BrowserWindow, ipcMain, desktopCapturer , Menu} from 'electron';
+import {app, BrowserWindow, ipcMain, desktopCapturer, Menu, systemPreferences} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 
@@ -9,7 +9,7 @@ async function createWindow() {
     height: 720,
     webPreferences: {
       nodeIntegration: false,
-      contextIsolation: true, 
+      contextIsolation: true,
       sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(app.getAppPath(), 'packages/preload/dist/index.cjs'),
@@ -27,9 +27,9 @@ async function createWindow() {
   browserWindow.on('ready-to-show', () => {
     browserWindow?.show();
 
-    // if (import.meta.env.DEV) {
-    //   browserWindow?.webContents.openDevTools();
-    // }
+    if (import.meta.env.DEV) {
+      browserWindow?.webContents.openDevTools();
+    }
   });
 
   /**
@@ -55,9 +55,9 @@ export async function getListSources(mainWindow: any) {
     inputSources.map(source => {
       return {
         label: source.name,
-        click: () => mainWindow.webContents.send('SET_SOURCE', source.id)
+        click: () => mainWindow.webContents.send('SET_SOURCE', source.id),
       };
-    })
+    }),
   );
   videoOptionsMenu.popup();
 }
@@ -69,7 +69,17 @@ export async function restoreOrCreateWindow() {
   let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
   ipcMain.on('GET_SOURCE', async () => {
     const res = await getListSources(window);
-    return res
+    return res;
+  });
+  ipcMain.on('JOIN_CAMERA', async () => {
+    const permissions = systemPreferences.getMediaAccessStatus('camera');
+    if (permissions !== 'granted') {
+      const res = await systemPreferences.askForMediaAccess('camera');
+      console.log(res);
+    }
+    if (systemPreferences.getMediaAccessStatus('camera') === 'granted') {
+      window?.webContents.send('SET_CAMERA');
+    }
   });
   if (window === undefined) {
     window = await createWindow();

@@ -7,3 +7,4 @@ export const generateRandomString = (length: number) => {
     }
     return result;
 }
+
