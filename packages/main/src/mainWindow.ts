@@ -67,6 +67,13 @@ export async function getListSources(mainWindow: any) {
  */
 export async function restoreOrCreateWindow() {
   let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
+  if (window === undefined) {
+    window = await createWindow();
+  }
+
+  if (window.isMinimized()) {
+    window.restore();
+  }
   ipcMain.on('GET_SOURCE', async () => {
     const res = await getListSources(window);
     return res;
@@ -81,13 +88,21 @@ export async function restoreOrCreateWindow() {
       window?.webContents.send('SET_CAMERA');
     }
   });
-  if (window === undefined) {
-    window = await createWindow();
+  function handleEvent(event: any, input: any) {
+    console.log(input)
+    event.preventDefault();
   }
-
-  if (window.isMinimized()) {
-    window.restore();
-  }
-
+  ipcMain.on('LOCK_KEYBOARD', (_event, isLocked) => {
+    if (isLocked) {
+      window?.maximize();
+      window!.closable = false;
+      window!.minimizable = false;
+      window?.webContents.addListener('before-input-event', handleEvent);
+    } else {
+      window!.closable = true;
+      window!.minimizable = true;
+      window?.webContents.removeListener('before-input-event', handleEvent);
+    }
+  });
   window.focus();
 }

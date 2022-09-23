@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    LockScreen: typeof import('./src/components/LockScreen.vue')['default']
     ReactiveHash: typeof import('./src/components/ReactiveHash.vue')['default']
     ShareScreen: typeof import('./src/components/ShareScreen.vue')['default']
   }

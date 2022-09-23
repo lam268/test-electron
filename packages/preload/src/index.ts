@@ -49,6 +49,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const peer = createJoinPeer();
     peer.addTransceiver('video', {direction: 'recvonly'});
   },
+  lockKeyboard: (locked: boolean) => {
+    ipcRenderer.send('LOCK_KEYBOARD', locked);
+  },
 });
 
 function handleStream(stream: any, isWebcam = false) {

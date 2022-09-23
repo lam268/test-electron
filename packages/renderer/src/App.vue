@@ -1,14 +1,21 @@
 <script lang="ts" setup>
-import ShareScreen from '/@/components/ShareScreen.vue';
+import ShareScreen from './components/ShareScreen.vue';
+import LockScreen from './components/LockScreen.vue';
 </script>
 
 <template>
-  <Suspense>
+  <div>
     <fieldset>
+        <legend>Test lockscreen</legend>
+        <lock-screen />
+      </fieldset>
+    <Suspense>
+      <fieldset>
       <legend>Test share screen</legend>
       <share-screen />
     </fieldset>
-  </Suspense>
+    </Suspense>
+  </div>
 </template>
 
 <style>
