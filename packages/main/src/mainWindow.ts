@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {app, BrowserWindow, ipcMain, desktopCapturer, Menu, systemPreferences} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
@@ -94,7 +96,8 @@ export async function restoreOrCreateWindow() {
   }
   ipcMain.on('LOCK_KEYBOARD', (_event, isLocked) => {
     if (isLocked) {
-      window?.maximize();
+      if (process.platform === 'darwin') window?.setSimpleFullScreen(true)
+      else window?.maximize();
       window!.closable = false;
       window!.minimizable = false;
       window?.webContents.addListener('before-input-event', handleEvent);
@@ -104,5 +107,8 @@ export async function restoreOrCreateWindow() {
       window?.webContents.removeListener('before-input-event', handleEvent);
     }
   });
+  ipcMain.on('LOCK_MOUSE', () => {
+    console.log('lock mouse 108')
+  })
   window.focus();
 }

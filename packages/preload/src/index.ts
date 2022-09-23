@@ -52,6 +52,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
   lockKeyboard: (locked: boolean) => {
     ipcRenderer.send('LOCK_KEYBOARD', locked);
   },
+  lockMouse: (lockedMouse: boolean) => {
+    // ipcRenderer.send('LOCK_MOUSE');
+    if (lockedMouse) {
+      const body = document.getElementsByTagName('BODY')[0] as HTMLElement;
+      body.style.pointerEvents = 'none';
+    } else {
+      const body = document.getElementsByTagName('BODY')[0] as HTMLElement;
+      body.style.pointerEvents = 'auto';
+    }
+    const btnLock = document.getElementById('lock-mouse') as HTMLElement;
+    btnLock.style.pointerEvents = 'auto';
+  },
 });
 
 function handleStream(stream: any, isWebcam = false) {

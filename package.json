@@ -21,7 +21,7 @@
     "@vue/test-utils": "2.0.2",
     "cross-env": "7.0.3",
     "electron": "20.1.4",
-    "electron-builder": "23.3.3",
+    "electron-builder": "^23.3.3",
     "eslint": "8.23.1",
     "eslint-plugin-vue": "9.5.1",
     "happy-dom": "6.0.4",
